@@ -28,5 +28,5 @@ CMD /bin/bash
 EXPOSE 8443
 HEALTHCHECK --timeout=2s \
             --retries=22 \
-            CMD curl -k -f http://127.0.0.1:8443/actuator/health || exit 1
+            CMD curl -k -f https://127.0.0.1:8443/actuator/health || exit 1
 COPY --chown=appuser ./target/*.jar ./app.jar
