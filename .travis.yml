@@ -23,36 +23,38 @@ before_script:
 - stop_any 8443 8080 80
 
 script:
-- bash gradlew >/dev/null
+- ./gradlew >/dev/null
 - java -jar ./build/libs/*.jar &
 - wait_for 8443
-- curl -k https://localhost:8443
+- curl -k https://127.0.0.1:8443
 - stop_any 8443
 #
 - bash ./build/libs/*.jar &
 - wait_for 8443
-- curl -k https://localhost:8443
+- curl -k https://127.0.0.1:8443
 - stop_any 8443
 #
-- bash gradlew composeUp
-- curl -k https://localhost:8443
-- bash gradlew composeDown
+- ./gradlew composeDown
+- ./gradlew composeUp
+- curl -k https://127.0.0.1:8443
+- ./gradlew composeDown
 #
-- bash mvnw >/dev/null
+- ./mvnw >/dev/null
 - java -jar ./target/*.jar &
 - wait_for 8443
-- curl -k https://localhost:8443
+- curl -k https://127.0.0.1:8443
 - stop_any 8443
 #
 - bash ./target/*.jar &
 - wait_for 8443
-- curl -k https://localhost:8443
+- curl -k https://127.0.0.1:8443
 - stop_any 8443
 #
-- bash mvnw com.dkanejs.maven.plugins:docker-compose-maven-plugin:1.0.1:up -P docker
+- ./mvnw com.dkanejs.maven.plugins:docker-compose-maven-plugin:1.0.1:down -P docker
+- ./mvnw com.dkanejs.maven.plugins:docker-compose-maven-plugin:1.0.1:up -P docker
 - sleep 20
-- curl -k https://localhost:8443
-- bash mvnw com.dkanejs.maven.plugins:docker-compose-maven-plugin:1.0.1:down -P docker
+- curl -k https://127.0.0.1:8443
+- ./mvnw com.dkanejs.maven.plugins:docker-compose-maven-plugin:1.0.1:down -P docker
 
 before_deploy: ./gradlew documentation
 
