@@ -32,28 +32,29 @@ script:
 - java -jar ./build/libs/*.jar &
 - wait_for 8443
 - curl -k https://127.0.0.1:8443
-- stop_any 8443
+- stop_any 8443 8080 80
 #
 - bash ./build/libs/*.jar &
 - wait_for 8443
 - curl -k https://127.0.0.1:8443
-- stop_any 8443
+- stop_any 8443 8080 80
 #
 - ./gradlew composeDown
 - ./gradlew composeUp
 - curl -k https://127.0.0.1:8443
 - ./gradlew composeDown
+- stop_any 8443 8080 80
 #
 - ./mvnw >/dev/null
 - java -jar ./target/*.jar &
 - wait_for 8443
 - curl -k https://127.0.0.1:8443
-- stop_any 8443
+- stop_any 8443 8080 80
 #
 - bash ./target/*.jar &
 - wait_for 8443
 - curl -k https://127.0.0.1:8443
-- stop_any 8443
+- stop_any 8443 8080 80
 #
 - ./mvnw com.dkanejs.maven.plugins:docker-compose-maven-plugin:1.0.1:down -P docker
 - ./mvnw com.dkanejs.maven.plugins:docker-compose-maven-plugin:1.0.1:up -P docker
