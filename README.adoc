@@ -156,7 +156,7 @@ Java HotSpot(TM) 64-Bit Server VM 18.3 (build 10.0.1+10, mixed mode)
 bash target/*.jar
 ----
 
-Lastly open browser and developer tool and refresh page.
+Lastly open browser https://127.0.0.1:8443/ and developer tool and refresh page.
 Go to network tab and enable protocol column.
 Refresh page and if you can see: `h2` protocol, then everything is correct
 

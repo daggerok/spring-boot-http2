@@ -2,7 +2,8 @@ service:
 - docker
 
 language: java
-jdk: oraclejdk8
+jdk: oraclejdk9
+jdk: oraclejdk10
 
 addons:
   apt:
@@ -15,12 +16,16 @@ addons:
     - libxml2-utils
     - docker-ce
     - python-pip
+    - jenv
+    - openssl
+    - wget
 
 install: true
 before_script:
 - sudo pip install docker-compose httpie >/dev/null 2>&1
 - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
 - stop_any 8443 8080 80
+- sudo update-ca-certificates --fresh
 
 script:
 - ./gradlew >/dev/null
