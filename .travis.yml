@@ -18,7 +18,7 @@ addons:
     - python-pip
     - jenv
     - openssl
-    - wget
+    - ca-certificates
 
 install: true
 before_script:
