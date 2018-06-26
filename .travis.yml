@@ -16,7 +16,6 @@ addons:
     - libxml2-utils
     - docker-ce
     - python-pip
-    - openssl
     - ca-certificates
 
 install: true
@@ -30,13 +29,11 @@ script:
 - ./gradlew >/dev/null
 - java -jar ./build/libs/*.jar &
 - wait_for 8443
-- curl -k https://127.0.0.1:8443/
 - stop_any 8443 8080 80
 #
 - ./gradlew >/dev/null
 - bash ./build/libs/*.jar &
 - wait_for 8443
-- curl -k https://127.0.0.1:8443/
 - stop_any 8443 8080 80
 #
 - ./gradlew >/dev/null
@@ -49,13 +46,11 @@ script:
 - ./mvnw >/dev/null
 - java -jar ./target/*.jar &
 - wait_for 8443
-- curl -k https://127.0.0.1:8443/
 - stop_any 8443 8080 80
 #
 - ./mvnw >/dev/null
 - bash ./target/*.jar &
 - wait_for 8443
-- curl -k https://127.0.0.1:8443/
 - stop_any 8443 8080 80
 #
 - ./mvnw >/dev/null
