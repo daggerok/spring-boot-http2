@@ -20,38 +20,38 @@ install: true
 before_script:
 - sudo pip install docker-compose httpie >/dev/null 2>&1
 - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
-- stop_any 8080 80
+- stop_any 8443 8080 80
 
 script:
 - bash gradlew >/dev/null
 - java -jar ./build/libs/*.jar &
-- wait_for 8080
-- http :8080
-- stop_any 8080 80
+- wait_for 8443
+- http :8443
+- stop_any 8443
 #
 - bash ./build/libs/*.jar &
-- wait_for 8080
-- http :8080
-- stop_any 8080 80
+- wait_for 8443
+- http :8443
+- stop_any 8443
 #
 - bash gradlew composeUp
-- http :8080
+- http :8443
 - bash gradlew composeDown
 #
 - bash mvnw >/dev/null
 - java -jar ./target/*.jar &
-- wait_for 8080
-- http :8080
-- stop_any 8080 80
+- wait_for 8443
+- http :8443
+- stop_any 8443
 #
 - bash ./target/*.jar &
-- wait_for 8080
-- http :8080
-- stop_any 8080 80
+- wait_for 8443
+- http :8443
+- stop_any 8443
 #
 - bash mvnw com.dkanejs.maven.plugins:docker-compose-maven-plugin:1.0.1:up -P docker
 - sleep 20
-- http :8080
+- http :8443
 - bash mvnw com.dkanejs.maven.plugins:docker-compose-maven-plugin:1.0.1:down -P docker
 
 before_deploy: ./gradlew documentation
