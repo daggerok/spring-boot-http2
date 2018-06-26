@@ -1,4 +1,4 @@
-version: "2.1"
+version: '2.1'
 
 services:
 
@@ -6,15 +6,17 @@ services:
     build:
       context: .
       dockerfile: gradle/Dockerfile
-    volumes: ["gradle-spring-boot-http2-app-data:/home/appuser"]
-    ports: ["8080:8080"]
-    networks: [backing-services]
-    #restart: unless-stopped
-    #mem_limit: 786432000 # container limit: 700Mb (700 * 1024 * 1024)
+    volumes: ['gradle-spring-boot-http2-app-data:/home/appuser']
+    ports: ['8443:8443']
+    restart: unless-stopped
+    networks:
+      public-net:
+        aliases:
+        - app
 
 volumes:
-  gradle-spring-boot-http2-app-data: {}
+  gradle-spring-boot-http2-app-data:
 
 networks:
-  backing-services:
+  public-net:
     driver: bridge
