@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?asciidoc-toc maxdepth="4"?>
+<?asciidoc-numbered?>
+<book xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
+<info>
+<title>{root-project-name} ({project-version})</title>
+<date>2018-06-26 21:22:45 UTC</date>
+<author>
+<personname>
+<firstname>Maksim</firstname>
+<surname>Kostromin</surname>
+</personname>
+<email>daggerok@gmail.com</email>
+</author>
+<authorinitials>MK</authorinitials>
+<revhistory>
+<revision>
+<revnumber>{project-version}</revnumber>
+<date>2018-06-26 21:22:45 UTC</date>
+<authorinitials>MK</authorinitials>
+</revision>
+</revhistory>
+</info>
+<preface>
+<title></title>
+<simpara>Travis CI status:
+<inlinemediaobject>
+<imageobject>
+<imagedata fileref="https://travis-ci.org/daggerok/{root-project-name}.svg?branch=master"/>
+</imageobject>
+<textobject><phrase>Build Status</phrase></textobject>
+</inlinemediaobject></simpara>
+</preface>
+<chapter xml:id="_introduction">
+<title>Introduction</title>
+
+</chapter>
+<chapter xml:id="_http_2_0_with_spring_boot_2_on_java_9">
+<title>HTTP 2.0 with spring-boot 2 on java 9+</title>
+<simpara>read <link xl:href="https://daggerok.github.io/spring-boot-http2">project reference documentation</link></simpara>
+<section xml:id="_tl_dr">
+<title>TL;DR</title>
+<simpara>Example how to enable HTTP 2.0 in spring-boot 2 non netty (non webflux) apps running on java 9+</simpara>
+</section>
+<section xml:id="_certificate">
+<title>certificate</title>
+<formalpara>
+<title>generate self signed sertificates</title>
+<para>
+<programlisting language="bash" linenumbering="unnumbered"># server side:
+keytool -genkeypair -alias my-keystore -keyalg RSA -keystore src/main/resources/my-keystore.jks \
+        -dname "CN=boot-jwt, L=Odessa, S=Odessa, C=UA" \
+        -keypass my-keystore-password -storepass my-keystore-password
+
+keytool -list -rfc --keystore src/main/resources/my-keystore.jks | openssl x509 -inform pem -pubkey &gt; src/main/resources/my-keystore.pem
+Enter keystore password:  my-keystore-password
+
+# client side:
+openssl x509 -pubkey -noout -in src/main/resources/my-keystore.pem  &gt; src/main/resources/my-keystore-pubkey.pem</programlisting>
+</para>
+</formalpara>
+<simpara>so now we have it:
+- server will consume file: <literal>src/main/resources/my-keystore.jks</literal>
+- clients needs file: <literal>src/main/resources/my-keystore-pubkey.pem</literal></simpara>
+</section>
+<section xml:id="_setup_spring_boot_app">
+<title>setup spring-boot app</title>
+<formalpara>
+<title>output</title>
+<para>
+<programlisting language="bash" linenumbering="unnumbered">server:
+  port: 8443
+  ssl:
+    key-password: my-keystore-password
+    trust-store-password: my-keystore-password
+    key-store: classpath:my-keystore.jks
+  http2:
+    enabled: true</programlisting>
+</para>
+</formalpara>
+</section>
+<section xml:id="_install_java_9_or_10_or_use_jenv_to_switch_java_version">
+<title>install java 9 or 10 or use jenv to switch java version</title>
+<formalpara>
+<title>http 2.0 is working on java 9+, so lets switch on it:</title>
+<para>
+<programlisting language="bash" linenumbering="unnumbered"># install jenv to easily switch between java verions:
+brew install jenv
+
+# install java 9
+
+# all installed JVMs on my mac:
+ls -l /Library/Java/JavaVirtualMachines/
+total 0
+drwxr-xr-x  3 root  wheel  96 Jul 15  2015 1.6.0.jdk
+drwxr-xr-x  3 root  wheel  96 Apr 20 22:42 jdk-10.0.1.jdk
+drwxr-xr-x  2 root  wheel  64 Apr 20 22:42 jdk-10.jdk
+drwxr-xr-x  3 root  wheel  96 Nov  8  2017 jdk-9.0.1.jdk
+drwxr-xr-x  2 root  wheel  64 Mar 24 04:08 jdk-9.0.4.jdk
+drwxr-xr-x  3 root  wheel  96 Mar 28 00:34 jdk1.7.0_80.jdk
+drwxr-xr-x  3 root  wheel  96 Nov 11  2017 jdk1.8.0_152.jdk
+drwxr-xr-x  3 root  wheel  96 Mar 19 01:59 jdk1.8.0_161.jdk
+drwxr-xr-x  2 root  wheel  64 Apr 20 22:44 jdk1.8.0_162.jdk
+drwxr-xr-x  3 root  wheel  96 Apr 20 22:44 jdk1.8.0_172.jdk
+
+# add JVM 9 to my jenv:
+jenv add /Library/Java/JavaVirtualMachines/jdk-9.0.1.jdk/Contents/Home/
+oracle64-9.0.1 added
+9.0 added
+
+# check current JVM:
+java -version
+java version "1.8.0_152"
+Java(TM) SE Runtime Environment (build 1.8.0_152-b16)
+Java HotSpot(TM) 64-Bit Server VM (build 25.152-b16, mixed mode)
+
+# check avalible JVMs to switch to:
+jenv versions
+  system
+  1.6
+  1.6.0.65
+  1.7
+  1.7.0.80
+  1.8
+  1.8.0.152
+  10.0
+  10.0.1
+  9.0
+  9.0.1
+  oracle64-1.6.0.65
+  oracle64-1.7.0.80
+* oracle64-1.8.0.152 (set by /private/tmp/spring-boot-http2/.java-version)
+  oracle64-10.0.1
+  oracle64-9.0.1
+
+# switch local jvm to JDK 9:
+jenv local 9.0.1
+
+# versify:
+java -version
+java version "9.0.1"
+Java(TM) SE Runtime Environment (build 9.0.1+11)
+Java HotSpot(TM) 64-Bit Server VM (build 9.0.1+11, mixed mode)</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>now build and run project using gradle:</title>
+<para>
+<programlisting language="bash" linenumbering="unnumbered">./gradlew clean build
+bash ./build/libs/*.jar</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>switch to java 10 and build using maven:</title>
+<para>
+<programlisting language="bash" linenumbering="unnumbered">jenv local 10.0
+
+java -version
+java version "10.0.1" 2018-04-17
+Java(TM) SE Runtime Environment 18.3 (build 10.0.1+10)
+Java HotSpot(TM) 64-Bit Server VM 18.3 (build 10.0.1+10, mixed mode)
+
+./mvnw
+
+bash target/*.jar</programlisting>
+</para>
+</formalpara>
+<simpara>Lastly open browser <link xl:href="https://127.0.0.1:8443/">127.0.0.1:8443/</link> and developer tool and refresh page.
+Go to network tab and enable protocol column.
+Refresh page and if you can see: <literal>h2</literal> protocol, then everything is correct</simpara>
+<simpara>generated by <link xl:href="https://github.com/daggerok/generator-jvm/">generator-jvm</link> yeoman generator (java-spring-boot)</simpara>
+</section>
+</chapter>
+<chapter xml:id="_implementation">
+<title>Implementation</title>
+<simpara>TODO: implement documentation&#8230;&#8203;</simpara>
+</chapter>
+<chapter xml:id="_links">
+<title>Links</title>
+<itemizedlist>
+<listitem>
+<simpara><link xl:href="{github-url}">GitHub repo</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://daggerok.github.io/{root-project-name}">GitHub pages</link></simpara>
+</listitem>
+</itemizedlist>
+</chapter>
+</book>
