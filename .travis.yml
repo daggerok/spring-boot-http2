@@ -1,10 +1,6 @@
 service:
 - docker
 
-env:
-  global:
-  - TERM=dumb
-
 language: java
 jdk: oraclejdk8
 
@@ -59,6 +55,11 @@ script:
 - bash mvnw com.dkanejs.maven.plugins:docker-compose-maven-plugin:1.0.1:down -P docker
 
 before_deploy: ./gradlew documentation
+
+env:
+  global:
+  - TERM=dumb
+  - secure: FADxRs3aTK43Alas7fKjSPsMe9ZO/ra1ju8e1M8WoVHcCEC9Cq0mCCvk4Q/goGt3C+0JIC6+FAT45h+QOYpqhXupVgkeyu9rirTBdkk+/Q986agyin6DrPjg9SSQOKoNs/nonp5oqemWWjyZviQq1bCvW7duWqq8obzn1qf/RrhoJm5Ls3QwOf0+T1Z7Etr0/89y7nOecOrQ/v0cYth/Z63NNmAki9fysvNwLaHx3Y+kDtDzZdgXqPpDHLG6nA1ip3Ht1WFqSdnY9Gxu5HGoXP/xkZ1Z+VnnfM/PdoaM7s+ztafVXuHzHX59/KyIDqkWNbmY8G4/e6XIr9srGJdUBmPcC8hAaV9jFdCk3QmzQDGF7GGlZcWnPUltw+T+fsu7golmLkOato3PFIq65qOiwdRAUvoeD7iu4XILWG1B5h0P6bYmIBqd5AGXU+6/R7VxO7707Qvl3K9KL5aUS8Xt/KtqStlu6wW4sYBH1hAz2ssliRc9CpV0sMjhRuHaJ6QX+ckZaQAf6MIyPzMPlpJausMn8UuJH8YBnjtxuVz0uLIVjgxveYFGuErYtpwA12E60yHT35BFXBVB2halzzRLSCt/W92/RIBmkDkkhLvIX+sAWiBERN04hX2Xz+FpcPZGCTWCSFdqhNmK/0uVTVxTfcd/L7GHzow1xvulFs80giw=
 
 deploy:
   provider: pages

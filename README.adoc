@@ -1,7 +1,6 @@
-= spring-boot-http2
+= spring-boot-http2 image:https://travis-ci.org/daggerok/spring-boot-http2.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-boot-http2"]
 
 ////
-image:https://travis-ci.org/daggerok/spring-boot-http2.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-boot-http2"]
 image:https://gitlab.com/daggerok/spring-boot-http2/badges/master/build.svg["Build Status", link="https://gitlab.com/daggerok/spring-boot-http2/-/jobs"]
 image:https://img.shields.io/bitbucket/pipelines/daggerok/spring-boot-http2.svg["Build Status", link="https://bitbucket.com/daggerok/spring-boot-http2"]
 ////
