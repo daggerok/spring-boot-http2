@@ -7,6 +7,10 @@ image:https://img.shields.io/bitbucket/pipelines/daggerok/spring-boot-http2.svg[
 
 //tag::content[]
 
+== HTTP 2.0 with spring-boot 2 on java 9+
+
+read link:https://daggerok.github.io/spring-boot-http2[project reference documentation]
+
 === TL;DR
 
 Example how to enable HTTP 2.0 in spring-boot 2 non netty (non webflux) apps running on java 9+
