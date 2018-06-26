@@ -16,7 +16,6 @@ addons:
     - libxml2-utils
     - docker-ce
     - python-pip
-    - jenv
     - openssl
     - ca-certificates
 
