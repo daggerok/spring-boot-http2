@@ -1,0 +1,3 @@
+rootProject.name = 'spring-boot-http2'
+enableFeaturePreview 'STABLE_PUBLISHING'
+include 'docs'

@@ -1,0 +1,19 @@
+#tag::content[]
+server:
+  port: 8443
+  ssl:
+    key-password: my-keystore-password
+    trust-store-password: my-keystore-password
+    key-store: classpath:my-keystore.jks
+  http2:
+    enabled: true
+#end::content[]
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+spring:
+  output:
+    ansi:
+      enabled: always
